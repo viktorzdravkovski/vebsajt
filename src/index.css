@@ -1,0 +1,531 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bone: #0a1210;
+  --color-ink: #eaf6ee;
+  --color-muted: #8fa89b;
+  --color-line: #20302a;
+  --color-wash: #0f1a16;
+  --color-electric: #32f0b4;
+  --color-electric-soft: #0d9e7b;
+
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Instrument Sans", ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background: var(--color-electric);
+    color: var(--color-bone);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-electric);
+    outline-offset: 4px;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .hero-line {
+      animation: none;
+      transform: none;
+    }
+    .hero-fade {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+  }
+
+  .prose-measure {
+    max-width: 62ch;
+  }
+
+  .link-draw {
+    position: relative;
+    text-decoration: none;
+    padding-bottom: 2px;
+  }
+
+  .link-draw::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-draw:hover::after,
+  .link-draw:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .nav-link {
+    position: relative;
+    padding-block: 0.4rem;
+    color: var(--color-muted);
+    transition: color 0.25s ease;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-electric);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current] {
+    color: var(--color-ink);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current]::after {
+    transform: scaleX(1);
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 9999px;
+    background: var(--color-electric);
+    box-shadow: 0 0 0 4px rgb(50 240 180 / 0.14);
+    animation: status-pulse 3s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot {
+      animation: none;
+    }
+  }
+}
+
+@layer utilities {
+  .hero-line {
+    display: block;
+    animation: hero-rise 1.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero-fade {
+    animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .scroll-dot {
+    animation: scroll-travel 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-rule {
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-heading {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 0.7s ease 0.05s,
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    }
+
+    .reveal-note {
+      opacity: 0;
+      transition: opacity 0.8s ease 0.2s;
+    }
+
+    .reveal[data-inview="true"] .reveal-rule {
+      transform: scaleX(1);
+    }
+
+    .reveal[data-inview="true"] .reveal-heading {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal[data-inview="true"] .reveal-note {
+      opacity: 1;
+    }
+  }
+}
+
+/* Fixed background: neon schematic board */
+
+.circuit-bg {
+  background-image: radial-gradient(rgba(50 240 180 / 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.circuit-dotgrid {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1200px 700px at 78% 30%, rgb(50 240 180 / 0.05), transparent 70%),
+    radial-gradient(900px 600px at 12% 85%, rgb(50 240 180 / 0.035), transparent 70%);
+}
+
+.circuit-svg {
+  position: absolute;
+  top: -3vmin;
+  right: -2vmin;
+  width: min(82vmin, 820px);
+  height: auto;
+  overflow: visible;
+  animation: circuit-drift 90s ease-in-out infinite alternate;
+}
+
+.circuit-trace,
+.circuit-outline,
+.circuit-led-glow,
+.circuit-pulse {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Keep the line weights literal on screen at every scale, including inside
+   grouped ink (ground hatching, MOSFET glyphs). */
+.circuit-svg :is(path, rect, circle) {
+  vector-effect: non-scaling-stroke;
+}
+
+.circuit-trace {
+  stroke: rgba(220, 246, 235, 0.17);
+  stroke-width: 1.4;
+}
+
+.circuit-outline {
+  stroke: rgba(220, 246, 235, 0.22);
+  stroke-width: 1.4;
+}
+
+.circuit-block {
+  fill: none;
+  stroke: rgba(220, 246, 235, 0.3);
+  stroke-width: 1.6;
+}
+
+.circuit-arrow {
+  stroke: rgba(50, 240, 180, 0.5);
+}
+
+.circuit-dot {
+  fill: rgba(220, 246, 235, 0.25);
+  stroke: none;
+}
+
+.circuit-junction {
+  fill: rgba(50, 240, 180, 0.4);
+  stroke: none;
+}
+
+.circuit-via-ring {
+  fill: none;
+  stroke: rgba(50, 240, 180, 0.35);
+  stroke-width: 1.3;
+}
+
+.circuit-via-core {
+  fill: var(--color-bone);
+  stroke: none;
+}
+
+.circuit-via-blink .circuit-via-ring {
+  animation: via-blink 2.4s ease-in-out infinite;
+}
+
+.circuit-label {
+  fill: rgba(220, 246, 235, 0.3);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  dominant-baseline: middle;
+}
+
+.circuit-label-sm {
+  fill: rgba(220, 246, 235, 0.24);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.circuit-led-glow {
+  stroke: var(--color-electric);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgb(50 240 180 / 0.75));
+  animation: led-glow 3.6s ease-in-out infinite;
+}
+
+.circuit-hatch {
+  stroke: none;
+}
+
+.circuit-boot {
+  animation: circuit-boot 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.circuit-pulse {
+  stroke: var(--color-electric);
+  stroke-width: 2.4;
+  stroke-dasharray: 0.06 0.94;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgb(50 240 180 / 0.8));
+  animation-name: circuit-pulse;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+}
+
+@media (max-width: 900px) {
+  .circuit-svg {
+    right: -16vmin;
+    opacity: 0.4;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%);
+  }
+}
+
+@media (max-width: 640px) {
+  .circuit-svg {
+    top: -4vmin;
+    right: -16vmin;
+    width: 100vmin;
+    opacity: 0.3;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, transparent 88%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 50%, transparent 88%);
+  }
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.09;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-travel {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(340%);
+    opacity: 0;
+  }
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes circuit-boot {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes circuit-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-12px, 10px, 0);
+  }
+}
+
+@keyframes circuit-pulse {
+  0%,
+  6% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  62% {
+    stroke-dashoffset: -0.94;
+    opacity: 1;
+  }
+  70%,
+  100% {
+    stroke-dashoffset: -0.94;
+    opacity: 0;
+  }
+}
+
+@keyframes led-glow {
+  0%,
+  14% {
+    opacity: 0.12;
+    filter: drop-shadow(0 0 2px rgb(50 240 180 / 0.3));
+  }
+  32%,
+  62% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgb(50 240 180 / 0.9));
+  }
+  86%,
+  100% {
+    opacity: 0.12;
+    filter: drop-shadow(0 0 2px rgb(50 240 180 / 0.3));
+  }
+}
+
+@keyframes via-blink {
+  0%,
+  8% {
+    opacity: 0.25;
+  }
+  20%,
+  45% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line,
+  .hero-fade,
+  .scroll-dot,
+  .status-dot,
+  .circuit-svg,
+  .circuit-boot,
+  .circuit-led-glow,
+  .circuit-via-blink .circuit-via-ring {
+    animation: none !important;
+  }
+
+  .circuit-pulse {
+    animation: none !important;
+    opacity: 0.55;
+    stroke-dasharray: 0.05 0.24;
+    filter: none;
+  }
+
+  .circuit-led-glow {
+    opacity: 0.85;
+  }
+
+  .hero-line,
+  .hero-fade {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
