@@ -29,7 +29,7 @@ function App() {
           <Section
             id="experience"
             title="Experience"
-            note="Ten years, four teams, and what actually changed because of the work."
+            note="Nine years, three companies, and what actually changed because of the work."
           >
             <Experience />
           </Section>
@@ -37,7 +37,7 @@ function App() {
           <Section
             id="systems"
             title="Systems"
-            note="How I think about the parts that have to hold when traffic, data, and people don't behave."
+            note="The things I make sure to own on every team I join."
           >
             <Systems />
           </Section>
@@ -59,9 +59,9 @@ function App() {
           </Section>
 
           <Section
-            id="notes"
-            title="Notes"
-            note="Occasional writing and talks, when there is something worth saying."
+            id="beyond-work"
+            title="Beyond work"
+            note="Education, hackathons, and the interests that keep the engine tuned."
           >
             <Notes />
           </Section>

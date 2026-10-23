@@ -134,6 +134,19 @@ export function Contact() {
                 </dd>
               </div>
             ))}
+            {profile.phone && (
+              <div className="flex items-baseline justify-between gap-6 border-t border-line pt-3">
+                <dt className="text-muted">Mobile</dt>
+                <dd className="text-right text-ink/85">
+                  <a
+                    href={`tel:${profile.phone.replace(/[^+\d]/g, "")}`}
+                    className="group -my-1 inline-flex items-baseline gap-1.5 py-1 text-ink underline decoration-1 underline-offset-4 decoration-ink/50 transition-colors duration-200 hover:text-electric hover:decoration-electric focus-visible:outline-electric"
+                  >
+                    {profile.phone}
+                  </a>
+                </dd>
+              </div>
+            )}
             <div className="flex items-baseline justify-between gap-6 border-t border-line pt-3">
               <dt className="text-muted">Based</dt>
               <dd className="text-right text-ink/85">{profile.based}</dd>
