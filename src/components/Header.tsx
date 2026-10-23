@@ -71,7 +71,7 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 768px)");
+    const desktop = window.matchMedia("(min-width: 640px)");
     const onChange = (event: MediaQueryListEvent) => {
       if (event.matches) setMenuOpen(false);
     };
@@ -87,7 +87,7 @@ export function Header() {
     >
       <div
         aria-hidden="true"
-        className={`mobile-menu-backdrop md:hidden${menuOpen ? " is-open" : ""}`}
+        className={`mobile-menu-backdrop sm:hidden${menuOpen ? " is-open" : ""}`}
         onClick={() => setMenuOpen(false)}
       />
 
@@ -99,7 +99,7 @@ export function Header() {
           {profile.name}
         </a>
 
-        <nav aria-label="Sections" className="hidden items-center gap-7 text-[0.8125rem] md:flex">
+        <nav aria-label="Sections" className="hidden items-center gap-7 text-[0.8125rem] sm:flex">
           {navigation.map((item) => {
             const id = item.href.slice(1);
             return (
@@ -117,7 +117,7 @@ export function Header() {
 
         <button
           type="button"
-          className={`menu-toggle md:hidden${menuOpen ? " is-open" : ""}`}
+          className={`menu-toggle sm:hidden${menuOpen ? " is-open" : ""}`}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((open) => !open)}
@@ -133,7 +133,7 @@ export function Header() {
       <div
         id="mobile-menu"
         inert={!menuOpen}
-        className={`mobile-menu md:hidden${menuOpen ? " is-open" : ""}`}
+        className={`mobile-menu sm:hidden${menuOpen ? " is-open" : ""}`}
       >
         <nav aria-label="Sections" className="shell mobile-menu-inner">
           <ul className="pb-5 pt-2">
